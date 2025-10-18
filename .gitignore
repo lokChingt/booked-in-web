@@ -1,0 +1,34 @@
+# Created by ChatGPT
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Node.js dependencies (if you use npm for JS packages)
+node_modules/
+
+# PHP Composer dependencies (if you use Composer)
+vendor/
+
+# Environment / configuration files
+.env
+.env.local
+config.php
+
+# Logs and temp files
+*.log
+tmp/
+cache/
+
+# IDE / editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Build / distribution folders (if any)
+dist/
+build/
+
+# Backup files
+*.bak
+*.swp
