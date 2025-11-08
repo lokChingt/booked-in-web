@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookedIn</title>
+    <link rel="stylesheet" href="/booked-in-web/css/style.css">
 </head>
 <body>
     <header>
@@ -16,7 +17,7 @@
                     <input type="submit">
                 </form>
             </Search>
-            <a href="login.php">Login</a>
+            <a href="login.php">Login/Register</a>
             <a href="reserve_book.php">Reserve a book</a>
             <a href="view_reserved.php">View reserved books</a>
         </nav>
