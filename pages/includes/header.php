@@ -17,8 +17,16 @@
                     <input type="submit">
                 </form>
             </Search>
-            <a href="login.php">Login/Register</a>
-            <a href="reserve_book.php">Reserve a book</a>
+
+            <!-- check if logged in -->
+            <?php 
+            if (!$_SESSION['username']) {
+                echo "<a href='login.php'>Login/Register</a>";
+            } else {
+                echo "<a href='logout.php'>Logout</a>";
+            }
+            ?>
+
             <a href="view_reserved.php">View reserved books</a>
         </nav>
     </header>
