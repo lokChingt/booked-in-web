@@ -1,10 +1,13 @@
 <?php 
+session_start();
 include "includes/header.php";
 include "includes/db_connect.php";
 
 // no isbn
 if (!isset($_GET['isbn']) || $_GET['isbn'] == '') {
     $error = "No ISBN received";
+    header("Location: index.php");
+    exit();
 }
 
 // get book info from db
@@ -30,8 +33,40 @@ while ($row = $result -> fetch_assoc()) {
     echo $row['CategoryDetail'] . "<br></td></tr>";
     echo "</table>";
 }
-
 ?>
 
+<form method='POST'>
+    <button type="submit" name="reserve">Reserve</button>
+</form>
 
-<?php include "includes/footer.php";?>
+<?php
+
+// check if reserve button is clicked
+if(isset($_POST['reserve'])) {
+    // check if logged in
+    if(!$_SESSION['username']) {
+        $error = "Please log in!";
+    } else {
+        $username = $_SESSION['username'];
+        $isbn = $_GET['isbn'];
+        $date = date("Y-m-d");
+
+        $stmt = $conn -> prepare("INSERT INTO Reservations VALUES (?, ?, ?);");
+        $stmt -> bind_param("sss", $isbn, $username, $date);
+
+        if($stmt -> execute()) {
+            $message = "Reserved successfully";
+        } else {
+            $error = "Error" . $stmt -> error;
+        }
+
+        $stmt -> close();
+    }
+    
+}
+
+$conn -> close();
+
+include "includes/show_message.php";
+include "includes/footer.php";
+?>
