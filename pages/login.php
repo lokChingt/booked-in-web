@@ -1,7 +1,6 @@
 <?php 
+session_start();
 include "includes/db_connect.php";
-
-$message = "";
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -21,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // correct password
         if($password === $db_password) {
-            session_start();
             $_SESSION['username'] = $username;
             $stmt->close();
             $conn->close();

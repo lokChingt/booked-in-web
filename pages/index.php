@@ -4,7 +4,7 @@ include "includes/db_connect.php";
 // check if logged in
 session_start();
 if (!$_SESSION['username']) {
-    $message = "Haven't login";
+    $error = "Haven't login";
 } else {
     $message = "Logged in as " . $_SESSION['username'];
 }
