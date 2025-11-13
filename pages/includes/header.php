@@ -22,8 +22,10 @@
             <?php 
             if (!$_SESSION['username']) {
                 echo "<a href='login.php'>Login/Register</a>";
+                $error = "Haven't login";
             } else {
                 echo "<a href='logout.php'>Logout</a>";
+                $message = "Logged in as " . $_SESSION['username'];
             }
             ?>
 
