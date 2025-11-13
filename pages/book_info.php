@@ -33,10 +33,22 @@ while ($row = $result -> fetch_assoc()) {
     echo $row['CategoryDetail'] . "<br></td></tr>";
     echo "</table>";
 }
+
+// check if reserved
+$isbn = $_GET['isbn'];
+$sql = "SELECT Username FROM Reservations WHERE ISBN = '$isbn'";
+$result = $conn -> query($sql);
+
+if($result -> num_rows > 0) {
+    $reserved = True;
+} else {
+    $reserved = False;
+}
 ?>
 
 <form method='POST'>
-    <button type="submit" name="reserve">Reserve</button>
+    <button type="submit" name="reserve" <?php if($reserved === True){ echo 'disabled'; }?> >Reserve</button>
+    <?php if($reserved === True){ echo 'Reserved'; }?>
 </form>
 
 <?php
