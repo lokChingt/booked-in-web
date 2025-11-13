@@ -38,17 +38,24 @@ while ($row = $result -> fetch_assoc()) {
 $isbn = $_GET['isbn'];
 $sql = "SELECT Username FROM Reservations WHERE ISBN = '$isbn'";
 $result = $conn -> query($sql);
+$row = $result -> fetch_assoc();
 
+$username = $_SESSION['username'];
 if($result -> num_rows > 0) {
-    $reserved = True;
+    if($row['Username'] == $username) {
+        $reserved = True;
+    } else {
+        $reserved_other = True;
+    }
 } else {
     $reserved = False;
 }
 ?>
 
 <form method='POST'>
-    <button type="submit" name="reserve" <?php if($reserved === True){ echo 'disabled'; }?> >Reserve</button>
+    <button type="submit" name="reserve" <?php if($reserved === True || $reserved_other == True){ echo 'disabled'; }?> >Reserve</button>
     <?php if($reserved === True){ echo 'Reserved'; }?>
+    <?php if($reserved_other === True){ echo 'Reserved by others'; }?>
 </form>
 
 <?php
