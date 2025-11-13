@@ -29,6 +29,7 @@
             }
             ?>
 
-            <a href="view_reserved.php">View reserved books</a>
+            <a href="view_reserved.php">Reserved books</a>
+            <a href="profile.php">Profile</a>
         </nav>
     </header>
