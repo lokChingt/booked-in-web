@@ -11,7 +11,7 @@ if (!isset($_GET['isbn']) || $_GET['isbn'] == '') {
 }
 
 // get book info from db
-$sql = "SELECT * FROM Books JOIN Categories USING(CategoryID) WHERE ISBN = ?;";
+$sql = "SELECT * FROM Books JOIN Categories USING(CategoryID) WHERE ISBN = ?";
 $stmt = $conn -> prepare($sql);
 $stmt -> bind_param("s", $_GET['isbn']);
 $stmt -> execute();
@@ -45,13 +45,16 @@ while ($row = $result -> fetch_assoc()) {
 if(isset($_POST['reserve'])) {
     // check if logged in
     if(!$_SESSION['username']) {
-        $error = "Please log in!";
+        // redirect to login page if not logged in
+        $_SESSION['error'] = "Please login to reserve books";
+        header("Location: login.php");
+        exit();
     } else {
         $username = $_SESSION['username'];
         $isbn = $_GET['isbn'];
         $date = date("Y-m-d");
 
-        $stmt = $conn -> prepare("INSERT INTO Reservations VALUES (?, ?, ?);");
+        $stmt = $conn -> prepare("INSERT INTO Reservations VALUES (?, ?, ?)");
         $stmt -> bind_param("sss", $isbn, $username, $date);
 
         if($stmt -> execute()) {
