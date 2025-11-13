@@ -1,10 +1,3 @@
-<!-- 
- 
-Provide database connection
-Can be included in scripts that require db access
-
--->
-
 <?php
 $servername = "localhost";
 $username = "root";
