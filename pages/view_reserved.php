@@ -53,7 +53,7 @@ if($result -> num_rows > 0) {
     echo "*** No reserved books ***";
 }
 
+$conn -> close();
+
+include "includes/footer.php";
 ?>
-
-
-<?php include "includes/footer.php";?>

@@ -15,10 +15,11 @@ if($result) {
     $error = "Error: " . $conn -> error;
 }
 
+$conn -> close();
+
 // redirect to previous page
 header("Location: view_reserved.php");
-?>
 
-<?php
+
 include "includes/footer.php";
 ?>
