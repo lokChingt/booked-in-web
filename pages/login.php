@@ -20,6 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // correct password
         if($password === $db_password) {
+            $result = $conn -> query("SELECT UserID FROM Users WHERE Username = '$username'");
+            $row = $result -> fetch_assoc();
+            $_SESSION['userid'] = $row['UserID'];
             $_SESSION['username'] = $username;
             $stmt->close();
             $conn->close();
