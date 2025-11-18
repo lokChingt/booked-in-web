@@ -3,13 +3,13 @@ session_start();
 include "includes/db_connect.php";
 
 // check if logged in 
-if(!($username = $_SESSION['username'])) {
+if(!($userid = $_SESSION['userid'])) {
     // redirect to login page if not logged in
     $_SESSION['error'] = "Please login to view reserved books";
     header("Location: login.php");
     exit();
 } else {
-    $message = "Logged in as " . $username;
+    $message = "Logged in as " . $_SESSION['username'];
 }
 
 include "includes/header.php";
@@ -21,7 +21,7 @@ $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail, ReservedD
         FROM Reservations
         JOIN Books USING(ISBN) 
         JOIN Categories USING(CategoryID)
-        WHERE Username = '$username'";
+        WHERE UserID = '$userid'";
 $result = $conn -> query($sql);
 
 if($result -> num_rows > 0) {
@@ -40,10 +40,12 @@ if($result -> num_rows > 0) {
     while($row = $result -> fetch_assoc()) {
         echo "<tr>";
         echo "<td>{$row['BookTitle']} [Edition {$row['Edition']}]</td>";
-        echo "<td>{$row['Author']}</td>";
-        echo "<td>{$row['Year']}</td>";
-        echo "<td>{$row['CategoryDetail']}</td>";
-        echo "<td>{$row['ReservedDate']}</td>";
+        foreach ($row as $column => $value) {
+            if($column == 'ISBN' || $column == 'BookTitle' || $column == 'Edition') {
+                continue;
+            }
+            echo "<td>$value</td>";
+        }
         echo "<td><a href='remove_reserved.php?isbn={$row['ISBN']}'>Remove</a></td>";
         echo "</tr>";
     }
