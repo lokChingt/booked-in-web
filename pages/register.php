@@ -27,9 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Username already been used";
     } else {
         // username not been used
-        $stmt = $conn -> prepare("INSERT INTO Users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn -> prepare("INSERT INTO Users 
+                                (Username, Password, FirstName, Surname, AddressLine1, AddressLine2, City, Telephone, Mobile) 
+                                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt -> bind_param("sssssssss", $username, $password, $fname, $surname, $address_1, $address_2, $city, $telephone, $mobile);
-        
+        $message = "Registered Please login!";
         if($stmt -> execute()) {
             # redirect to login page
             header("Location: login.php");
