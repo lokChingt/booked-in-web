@@ -4,7 +4,7 @@ include "includes/db_connect.php";
 include "includes/header.php";
 include "includes/show_message.php";
 
-if(!$_SESSION['username']) {
+if(!$_SESSION['userid']) {
     // redirect to login page if not logged in
     $_SESSION['error'] = "Please login to view your profile";
     header("Location: login.php");
@@ -15,15 +15,31 @@ if(!$_SESSION['username']) {
 <h1>User Profile</h1>
 
 <?php
-$username = $_SESSION['username'];
-$sql = "SELECT * FROM Users WHERE Username = '$username'";
+$required_col = ['FirstName', 'Surname', 'Username', 'Password', 'City'];
+$userid = $_SESSION['userid'];
+$sql = "SELECT * FROM Users WHERE UserID = '$userid'";
 $result = $conn -> query($sql);
 if($result) {
     echo "<table>";
     while($row = $result -> fetch_assoc()) {
         foreach ($row as $column => $value) {
-            echo "<tr><td>$column: </td><td>$value</td>";
-            echo "<td><a href='edit.php?data=$column'>Edit</a></td></tr>";
+            if($column !== 'UserID') {
+                echo "<tr><td>$column: </td>";
+                if ($column == 'Password') {
+                    echo "<td>*****</td>";
+                } else {
+                    echo "<td>$value</td>";
+                }
+                if($value == '') {
+                    $var = "Add";
+                } else {
+                    $var = "Edit";
+                }
+                echo "<td><a href='edit.php?data=$column'>$var</a></td>";
+                if(!in_array($column, $required_col)) {
+                    echo "<td><a href='remove_data.php?data=$column'>Remove</a></td></tr>";
+                }
+            }
         }
     }
     echo "</table>";
