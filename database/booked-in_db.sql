@@ -71,7 +71,7 @@ CREATE TABLE Reservations
 (
     ISBN          VARCHAR(15) NOT NULL,
     UserID        INT NOT NULL,
-    ReservedDate  DATE,
+    ReservedDate  DATE NOT NULL,
     FOREIGN KEY (ISBN) REFERENCES Books(ISBN),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
     CONSTRAINT pk_Reservations PRIMARY KEY (ISBN, UserID)
