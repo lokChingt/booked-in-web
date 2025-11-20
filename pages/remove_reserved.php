@@ -6,8 +6,8 @@ include "includes/show_message.php";
 
 // delete from db
 $isbn = $_GET["isbn"];
-$username = $_SESSION["username"];
-$sql = "DELETE FROM Reservations WHERE ISBN = '$isbn' and Username = '$username'";
+$userid = $_SESSION["userid"];
+$sql = "DELETE FROM Reservations WHERE ISBN = '$isbn' and UserID = '$userid'";
 $result = $conn -> query($sql);
 if($result) {
     $message = "Removed successfully";
@@ -19,7 +19,7 @@ $conn -> close();
 
 // redirect to previous page
 header("Location: view_reserved.php");
-
+exit();
 
 include "includes/footer.php";
 ?>

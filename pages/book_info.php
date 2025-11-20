@@ -36,13 +36,13 @@ while ($row = $result -> fetch_assoc()) {
 
 // check if reserved
 $isbn = $_GET['isbn'];
-$sql = "SELECT Username FROM Reservations WHERE ISBN = '$isbn'";
+$sql = "SELECT UserID FROM Reservations WHERE ISBN = '$isbn'";
 $result = $conn -> query($sql);
 $row = $result -> fetch_assoc();
 
-$username = $_SESSION['username'];
+$userid = $_SESSION['userid'];
 if($result -> num_rows > 0) {
-    if($row['Username'] == $username) {
+    if($row['UserID'] == $userid) {
         $reserved = True;
     } else {
         $reserved_other = True;
@@ -63,18 +63,18 @@ if($result -> num_rows > 0) {
 // check if reserve button is clicked
 if(isset($_POST['reserve'])) {
     // check if logged in
-    if(!$_SESSION['username']) {
+    if(!$_SESSION['userid']) {
         // redirect to login page if not logged in
         $_SESSION['error'] = "Please login to reserve books";
         header("Location: login.php");
         exit();
     } else {
-        $username = $_SESSION['username'];
+        $userid = $_SESSION['userid'];
         $isbn = $_GET['isbn'];
         $date = date("Y-m-d");
 
-        $stmt = $conn -> prepare("INSERT INTO Reservations VALUES (?, ?, ?)");
-        $stmt -> bind_param("sss", $isbn, $username, $date);
+        $stmt = $conn -> prepare("INSERT INTO Reservations (ISBN, UserID, ReservedDate) VALUES (?, ?, ?)");
+        $stmt -> bind_param("sss", $isbn, $userid, $date);
 
         if($stmt -> execute()) {
             $message = "Reserved successfully";

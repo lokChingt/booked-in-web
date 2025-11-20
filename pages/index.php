@@ -1,13 +1,7 @@
-<?php 
+<?php
+session_start();
 include "includes/db_connect.php";
 
-// check if logged in
-session_start();
-if (!$_SESSION['username']) {
-    $error = "Haven't login";
-} else {
-    $message = "Logged in as " . $_SESSION['username'];
-}
 
 // get book info from db
 $sql = "SELECT * FROM Books ORDER BY BookTitle";
@@ -24,7 +18,7 @@ include "includes/show_message.php";
     // show all books with BookTitle, Edition and Author
     while ($row = $result -> fetch_assoc()) {
         echo "<div class='book'>";
-        echo '<img src="../images/template.png" alt="Book Template" height="200">' . '<br>';
+        echo '<img src="../images/template.png" alt="Book Template" height="200"><br>';
         echo "<a href='book_info.php?isbn={$row['ISBN']}'> {$row['BookTitle']} [Edition {$row['Edition']}] </a> <br>";
         echo "{$row['Author']}</p>";
         echo "</div>";

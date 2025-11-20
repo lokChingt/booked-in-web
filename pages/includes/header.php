@@ -1,3 +1,11 @@
+<?php
+session_start();
+include "includes/db_connect.php";
+
+$sql = "SELECT CategoryDetail FROM Categories";
+$categories = $conn -> query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,18 +19,8 @@
         <h1>Welcome to BookedIn!</h1>
         <nav>
             <a href="index.php">Home</a>
-            <Search>
-                <form action="search.php" method="POST">
-                    <input type="checkbox" id="by_title" name="search_by[]" value="by_title">
-                    <label for="by_title">Search by Title</label>
-                    <input type="checkbox" id="by_author" name="search_by[]" value="by_author">
-                    <label for="by_author">Search by Author</label>
-                    <br>
-                    <input type="text" id="search" name="search" placeholder="Search for a book" required>
-                    <input type="submit" value="Search">                    
-                </form>
-            </Search>
-
+            <a href="view_reserved.php">Reserved books</a>
+            <a href="profile.php">Profile</a>
             <!-- check if logged in -->
             <?php 
             if (!$_SESSION['userid']) {
@@ -32,8 +30,27 @@
                 $message = "Logged in as " . $_SESSION['username'];
             }
             ?>
-
-            <a href="view_reserved.php">Reserved books</a>
-            <a href="profile.php">Profile</a>
+            <Search>
+                <form action="search.php" method="POST">
+                    <input type="checkbox" id="by_title" name="search_by[]" value="by_title">
+                    <label for="by_title">Search by Title</label>
+                    <input type="checkbox" id="by_author" name="search_by[]" value="by_author">
+                    <label for="by_author">Search by Author</label>
+                    <br>
+                    <label for="by_category">Search by Category</label>
+                    <select name="category" id="by_category">
+                        <option value="0">--Select option--</option>
+                        <?php 
+                        while ($row = $categories -> fetch_assoc()) {
+                            $category = $row['CategoryDetail'];
+                            echo "<option value='{$category}'>$category</option>";
+                        }
+                        ?>
+                    </select>
+                    <br>
+                    <input type="text" id="search" name="search" placeholder="Search for a book">
+                    <input type="submit" value="Search">                    
+                </form>
+            </Search>
         </nav>
     </header>
