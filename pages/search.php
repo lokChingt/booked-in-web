@@ -7,18 +7,40 @@ include "includes/show_message.php";
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $search_by = isset($_POST['search_by']) ? $_POST['search_by'] : array();
     $search_word = $_POST['search'];
-    
-    if(in_array('by_title', $search_by) && in_array('by_author', $search_by)) {
+    $search_category = $_POST['category'];
+
+    $by_title = in_array('by_title', $search_by);
+    $by_author = in_array('by_author', $search_by);
+
+    if($search_word) {
+        if($by_title && $by_author) {
+            if($search_category) {
+                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE CategoryDetail = '$search_category' and (BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%')";
+            } else {
+                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%'";
+            }
+        } elseif($by_title) {
+            if($search_category) {
+                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE CategoryDetail = '$search_category' and BookTitle LIKE '%$search_word%'";
+            } else {
+                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                    WHERE BookTitle LIKE '%$search_word%'";
+            }
+        } elseif($by_author) {
+            if($search_category) {
+                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE CategoryDetail = '$search_category' and Author LIKE '%$search_word%'";
+            } else {
+                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                    WHERE Author LIKE '%$search_word%'";
+            }
+        }
+    } elseif($search_category) {
         $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
-                WHERE BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%'";
-    } elseif(in_array('by_title', $search_by)) {
-        $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
-                WHERE BookTitle LIKE '%$search_word%'";
-    } elseif (in_array('by_author', $search_by)) {
-        $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
-                WHERE Author LIKE '%$search_word%'";
-    } else {
-        echo "Error";
+                WHERE CategoryDetail = '$search_category'";
     }
     
     $result = $conn -> query($sql);
