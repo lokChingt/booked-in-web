@@ -32,7 +32,7 @@ if($result -> num_rows > 0) {
     echo "<th>Category</th>";
     echo "<th>Reserved Date</th>";
     echo "<th>Action</th>";
-    echo "</tr><br>";
+    echo "</tr>";
 
     // loop over the rows
     while($row = $result -> fetch_assoc()) {

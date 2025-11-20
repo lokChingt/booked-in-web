@@ -2,6 +2,8 @@
 include "includes/header.php";
 include "includes/show_message.php";
 
+echo "<h2>Search Results</h2>";
+
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $search_by = isset($_POST['search_by']) ? $_POST['search_by'] : array();
     $search_word = $_POST['search'];
@@ -36,9 +38,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     WHERE Author LIKE '%$search_word%'";
             }
         }
-    } elseif($search_category) {
-        $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
-                WHERE CategoryDetail = '$search_category'";
+    } else { # no search word
+        if($search_category) {
+            $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                    WHERE CategoryDetail = '$search_category'";
+        } else {
+            $_SESSION['error'] =  "Please enter search word";
+            header("Location: index.php");
+            exit();
+        }
     }
     
     $result = $conn -> query($sql);
@@ -51,7 +59,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<th>Author</th>";
         echo "<th>Year</th>";
         echo "<th>Category</th>";
-        echo "</tr><br>";
+        echo "</tr>";
     
         // loop over the rows
         while($row = $result -> fetch_assoc()) {
