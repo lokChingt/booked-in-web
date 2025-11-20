@@ -1,6 +1,5 @@
 <?php 
-session_start();
-include "includes/db_connect.php";
+include "includes/header.php";
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn -> close();
 }
 
-include "includes/header.php";
 include "includes/show_message.php";
 
 ?>

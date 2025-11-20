@@ -1,7 +1,5 @@
 <?php 
-session_start();
 include "includes/header.php";
-include "includes/db_connect.php";
 
 // no isbn
 if (!isset($_GET['isbn']) || $_GET['isbn'] == '') {

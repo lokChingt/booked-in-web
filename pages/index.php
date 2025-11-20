@@ -1,14 +1,11 @@
 <?php
-session_start();
-include "includes/db_connect.php";
-
+include "includes/header.php";
+include "includes/show_message.php";
 
 // get book info from db
 $sql = "SELECT * FROM Books ORDER BY BookTitle";
 $result = $conn -> query($sql);
 
-include "includes/header.php";
-include "includes/show_message.php";
 ?>
 
 <h1>This is the Home page</h1>

@@ -1,6 +1,5 @@
 <?php 
-session_start();
-include "includes/db_connect.php";
+include "includes/header.php";
 
 // check if logged in 
 if(!($userid = $_SESSION['userid'])) {
@@ -12,7 +11,6 @@ if(!($userid = $_SESSION['userid'])) {
     $message = "Logged in as " . $_SESSION['username'];
 }
 
-include "includes/header.php";
 include "includes/show_message.php";
 echo "<h1>View reserved books</h1>";
 

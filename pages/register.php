@@ -1,6 +1,5 @@
 <?php 
 include "includes/header.php";
-include "includes/db_connect.php";
 include "includes/show_message.php";
 
 // Check if form is submitted
