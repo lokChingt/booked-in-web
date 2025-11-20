@@ -12,17 +12,21 @@
         <nav>
             <a href="index.php">Home</a>
             <Search>
-                <form method="POST">
-                    <input type="text" name="search" placeholder="Search for a book">
-                    <input type="submit">
+                <form action="search.php" method="POST">
+                    <input type="checkbox" id="by_title" name="search_by[]" value="by_title">
+                    <label for="by_title">Search by Title</label>
+                    <input type="checkbox" id="by_author" name="search_by[]" value="by_author">
+                    <label for="by_author">Search by Author</label>
+                    <br>
+                    <input type="text" id="search" name="search" placeholder="Search for a book" required>
+                    <input type="submit" value="Search">                    
                 </form>
             </Search>
 
             <!-- check if logged in -->
             <?php 
-            if (!$_SESSION['username']) {
+            if (!$_SESSION['userid']) {
                 echo "<a href='login.php'>Login/Register</a>";
-                $error = "Haven't login";
             } else {
                 echo "<a href='logout.php'>Logout</a>";
                 $message = "Logged in as " . $_SESSION['username'];
