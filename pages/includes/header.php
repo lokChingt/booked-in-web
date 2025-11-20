@@ -31,12 +31,7 @@ $categories = $conn -> query($sql);
             }
             ?>
             <Search>
-                <form action="search.php" method="POST">
-                    <input type="checkbox" id="by_title" name="search_by[]" value="by_title">
-                    <label for="by_title">Search by Title</label>
-                    <input type="checkbox" id="by_author" name="search_by[]" value="by_author">
-                    <label for="by_author">Search by Author</label>
-                    <br>
+                <form action="search.php" method="GET">
                     <label for="by_category">Search by Category</label>
                     <select name="category" id="by_category">
                         <option value="0">--Select option--</option>
@@ -49,7 +44,12 @@ $categories = $conn -> query($sql);
                     </select>
                     <br>
                     <input type="text" id="search" name="search" placeholder="Search for a book">
-                    <input type="submit" value="Search">                    
+                    <input type="submit" value="Search">
+                    <br>
+                    <input type="checkbox" id="by_title" name="search_by[]" value="by_title">
+                    <label for="by_title">Search by Title</label>
+                    <input type="checkbox" id="by_author" name="search_by[]" value="by_author">
+                    <label for="by_author">Search by Author</label>
                 </form>
             </Search>
         </nav>

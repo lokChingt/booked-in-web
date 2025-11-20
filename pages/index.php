@@ -16,7 +16,7 @@ $result = $conn -> query($sql);
     while ($row = $result -> fetch_assoc()) {
         echo "<div class='book'>";
         echo '<img src="../images/template.png" alt="Book Template" height="200"><br>';
-        echo "<a href='book_info.php?isbn={$row['ISBN']}'> {$row['BookTitle']} [Edition {$row['Edition']}] </a> <br>";
+        echo "<a href='book_info.php?isbn={$row['ISBN']}'> {$row['BookTitle']} [Edition {$row['Edition']}]</a><br>";
         echo "{$row['Author']}</p>";
         echo "</div>";
     }

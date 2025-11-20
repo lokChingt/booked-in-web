@@ -4,10 +4,10 @@ include "includes/show_message.php";
 
 echo "<h2>Search Results</h2>";
 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $search_by = isset($_POST['search_by']) ? $_POST['search_by'] : array();
-    $search_word = $_POST['search'];
-    $search_category = $_POST['category'];
+if($_SERVER["REQUEST_METHOD"] == "GET") {
+    $search_by = isset($_GET['search_by']) ? $_GET['search_by'] : array();
+    $search_word = $_GET['search'];
+    $search_category = $_GET['category'];
 
     $by_title = in_array('by_title', $search_by);
     $by_author = in_array('by_author', $search_by);
@@ -15,35 +15,39 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     if($search_word) {
         if($by_title && $by_author) {
             if($search_category) {
-                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
                         WHERE CategoryDetail = '$search_category' and (BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%')";
             } else {
-                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
                         WHERE BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%'";
             }
         } elseif($by_title) {
             if($search_category) {
-                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
                         WHERE CategoryDetail = '$search_category' and BookTitle LIKE '%$search_word%'";
             } else {
-                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
                     WHERE BookTitle LIKE '%$search_word%'";
             }
         } elseif($by_author) {
             if($search_category) {
-                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
                         WHERE CategoryDetail = '$search_category' and Author LIKE '%$search_word%'";
             } else {
-                $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
                     WHERE Author LIKE '%$search_word%'";
             }
+        } else { # only search word
+            $_SESSION['error'] = "Search by and Search word must use together";
+            header("Location: index.php");
+            exit();
         }
     } else { # no search word
         if($search_category) {
-            $sql = "SELECT BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+            $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
                     WHERE CategoryDetail = '$search_category'";
         } else {
-            $_SESSION['error'] =  "Please enter search word";
+            $_SESSION['error'] = "Please enter Search word or choose a Category";
             header("Location: index.php");
             exit();
         }
@@ -64,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         // loop over the rows
         while($row = $result -> fetch_assoc()) {
             echo "<tr>";
-            echo "<td>{$row['BookTitle']} [Edition {$row['Edition']}]</td>";
+            echo "<td><a href='book_info.php?isbn={$row['ISBN']}'> {$row['BookTitle']} [Edition {$row['Edition']}]</a><td>";
             foreach ($row as $column => $value) {
                 if($column == 'ISBN' || $column == 'BookTitle' || $column == 'Edition') {
                     continue;
