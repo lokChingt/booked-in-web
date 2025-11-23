@@ -1,3 +1,104 @@
+a, label {
+    font-size: large;
+}
+
+h2 {
+    font-size: x-large;
+}
+
+body {
+    text-align: center;
+}
+
+.display, form {
+    padding: 10px;
+}
+
+table {
+    display: flex;
+    justify-content: center;
+    text-align: left;
+}
+
+table th {
+    text-align: center;
+}
+
+table td {
+    padding: 5px;
+    border-style: double;
+    border-color: #ebcdb1;
+}
+
+header, footer {
+    text-align: center;
+    padding: 10px;
+    background-color: antiquewhite;
+}
+
+h1 a {
+    text-decoration: none;
+    color: black;
+    font-size: xx-large;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+  
+ul li {
+    float: left;
+}
+  
+ul li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+ul li a:hover {
+    background-color: rgb(231, 214, 193);
+    border-radius: 8px;
+}
+
+Search {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: black;
+}
+
+input, select {
+    margin: 5px;
+    padding: 5px;
+}
+
+.display label, .display, .books_num {
+    margin: 10px;
+}
+
+.book_grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.book {
+    margin: 30px;
+}
+  
 .error {
     color:#721c24; 
     background:#f8d7da; 

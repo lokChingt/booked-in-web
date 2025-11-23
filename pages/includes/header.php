@@ -16,41 +16,41 @@ $categories = $conn -> query($sql);
 </head>
 <body>
     <header>
-        <h1>Welcome to BookedIn!</h1>
+        <h1><a href="index.php">BookedIn</a></h1>
         <nav>
-            <a href="index.php">Home</a>
-            <a href="view_reserved.php">Reserved books</a>
-            <a href="profile.php">Profile</a>
+            <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="view_reserved.php">Reserved books</a></li>
+            <li><a href="profile.php">Profile</a></li>
             <!-- check if logged in -->
             <?php 
             if (!$_SESSION['userid']) {
-                echo "<a href='login.php'>Login/Register</a>";
+                echo "<li><a href='login.php'>Login/Register</a></li>";
             } else {
-                echo "<a href='logout.php'>Logout</a>";
+                echo "<li><a href='logout.php'>Logout</a></li>";
                 $message = "Logged in as " . $_SESSION['username'];
             }
             ?>
-            <Search>
-                <form action="search.php" method="GET">
-                    <label for="by_category">Search by Category</label>
-                    <select name="category" id="by_category">
-                        <option value="0">--Select option--</option>
-                        <?php 
-                        while ($row = $categories -> fetch_assoc()) {
-                            $category = $row['CategoryDetail'];
-                            echo "<option value='{$category}'>$category</option>";
-                        }
-                        ?>
-                    </select>
-                    <br>
-                    <input type="text" id="search" name="search" placeholder="Search for a book">
-                    <input type="submit" value="Search">
-                    <br>
-                    <input type="checkbox" id="by_title" name="search_by[]" value="by_title">
-                    <label for="by_title">Search by Title</label>
-                    <input type="checkbox" id="by_author" name="search_by[]" value="by_author">
-                    <label for="by_author">Search by Author</label>
-                </form>
-            </Search>
+            </ul>
         </nav>
+        <Search>
+            <form action="search.php" method="GET">
+                <label for="by_category">Search by Category</label>
+                <select name="category" id="by_category">
+                    <option value="0">--Select option--</option>
+                    <?php 
+                    while ($row = $categories -> fetch_assoc()) {
+                        $category = $row['CategoryDetail'];
+                        echo "<option value='{$category}'>$category</option>";
+                    }
+                    ?>
+                </select>
+                <input type="checkbox" id="by_title" name="search_by[]" value="by_title">
+                <label for="by_title">Search by Title</label>
+                <input type="checkbox" id="by_author" name="search_by[]" value="by_author">
+                <label for="by_author">Search by Author</label>
+                <input type="text" id="search" name="search" placeholder="Search for a book">
+                <input type="submit" value="Search">
+            </form>
+        </Search>
     </header>

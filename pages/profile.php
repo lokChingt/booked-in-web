@@ -9,7 +9,7 @@ if(!$_SESSION['userid']) {
     exit();
 }
 ?>
-
+<div class="display">
 <h1>User Profile</h1>
 
 <?php
@@ -36,13 +36,15 @@ if($result) {
                 echo "<td><a href='edit.php?data=$column'>$var</a></td>";
                 if(!in_array($column, $required_col)) {
                     echo "<td><a href='remove_data.php?data=$column'>Remove</a></td></tr>";
+                } else {
+                    echo "<td>Required</td>";
                 }
             }
         }
     }
     echo "</table>";
 }
-
+echo '</div>';
 
 
 $conn -> close();

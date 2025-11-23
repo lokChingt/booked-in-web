@@ -2,7 +2,6 @@
 include "includes/header.php";
 include "includes/show_message.php";
 
-echo "<h2>Search Results</h2>";
 
 if($_SERVER["REQUEST_METHOD"] == "GET") {
     $search_by = isset($_GET['search_by']) ? $_GET['search_by'] : array();
@@ -11,6 +10,21 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 
     $by_title = in_array('by_title', $search_by);
     $by_author = in_array('by_author', $search_by);
+
+    $search_q = "";
+    if ($by_title) {
+        if($search_category)
+            $separator = ',';
+        $search_q = $search_q . " by Title";
+    } 
+    if ($by_author) {
+        if($by_title)
+        $search_q = $search_q . " & by Author";
+    }
+    if($search_category) {
+        $search_q = $search_q . " in Category " . $search_category;
+    } 
+
 
     if($search_word) {
         if($by_title && $by_author) {
@@ -53,6 +67,8 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         }
     }
     
+    echo "<h2>Result for '$search_word' $search_q</h2>";
+
     $result = $conn -> query($sql);
     $book_num = $result -> num_rows;
     if($book_num > 0) {
@@ -68,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         // loop over the rows
         while($row = $result -> fetch_assoc()) {
             echo "<tr>";
-            echo "<td><a href='book_info.php?isbn={$row['ISBN']}'> {$row['BookTitle']} [Edition {$row['Edition']}]</a><td>";
+            echo "<td><a href='book_info.php?isbn={$row['ISBN']}'> {$row['BookTitle']} [Edition {$row['Edition']}]</a></td>";
             foreach ($row as $column => $value) {
                 if($column == 'ISBN' || $column == 'BookTitle' || $column == 'Edition') {
                     continue;
@@ -80,9 +96,13 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         echo "</table>";
         
     } else {
-        echo "*** No books found ***";
+        echo "*** No books found for '$search_word' " . $search_q . " ***";
     }
 }
-echo '<br>Number of books: ' . $book_num;
+echo '<div class="books_num">';
+echo 'Number of books: ' . $book_num;
+
+
+echo '</div>';
 include "includes/footer.php";
 ?>

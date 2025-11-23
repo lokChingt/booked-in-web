@@ -41,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 include "includes/show_message.php";
 
 ?>
-
-<h1>Login to BookedIn</h1>
+<div class="display">
+<h2>Login</h2>
 
 <form method="POST">
     <table>
@@ -57,7 +57,7 @@ include "includes/show_message.php";
     </table>
     <input type="submit" value="Login">
 </form>
-<br>
 <a href="register.php">Don't have an account?</a>
+</div>
 
 <?php include "includes/footer.php";?>

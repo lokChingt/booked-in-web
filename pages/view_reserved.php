@@ -11,6 +11,7 @@ if(!($userid = $_SESSION['userid'])) {
     $message = "Logged in as " . $_SESSION['username'];
 }
 
+echo '<div class="display">';
 include "includes/show_message.php";
 echo "<h1>View reserved books</h1>";
 
@@ -52,6 +53,7 @@ if($result -> num_rows > 0) {
 } else {
     echo "*** No reserved books ***";
 }
+echo '</div>';
 
 $conn -> close();
 

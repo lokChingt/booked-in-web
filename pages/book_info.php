@@ -17,6 +17,7 @@ $result = $stmt -> get_result();
 
 
 // display
+echo '<div class="display">';
 echo "<h1>Book info</h1>";
 while ($row = $result -> fetch_assoc()) {
     echo "<img src='../images/template.png' alt='template' width=300>";
@@ -49,13 +50,12 @@ if($result -> num_rows > 0) {
     $reserved = False;
 }
 ?>
-
 <form method='POST'>
     <button type="submit" name="reserve" <?php if($reserved === True || $reserved_other == True){ echo 'disabled'; }?> >Reserve</button>
     <?php if($reserved === True){ echo 'Reserved'; }?>
     <?php if($reserved_other === True){ echo 'Reserved by others'; }?>
 </form>
-
+</div>
 <?php
 
 // check if reserve button is clicked
