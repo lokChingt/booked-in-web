@@ -90,13 +90,9 @@ input, select {
 }
 
 .book_grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-
-.book {
-    margin: 30px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
   
 .error {
@@ -113,4 +109,19 @@ input, select {
     padding:10px; 
     border-radius:8px; 
     margin:12px 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+.pagination li {
+    list-style-type: none;
+    padding: 5px;
+}
+
+.current_page {
+    background: bisque;
 }

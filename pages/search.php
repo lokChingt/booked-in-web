@@ -2,6 +2,18 @@
 include "includes/header.php";
 include "includes/show_message.php";
 
+if (!isset ($_GET['page']) ) {
+    $_SESSION['params'] = $_GET;
+    $_SESSION['params']['page'] = 1;
+
+    $_SESSION['url'] = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
+
+    header("Location: " . $_SESSION['url']);
+    exit;
+} else {
+    $page = $_GET['page'];
+} 
+
 
 if($_SERVER["REQUEST_METHOD"] == "GET") {
     $search_by = isset($_GET['search_by']) ? $_GET['search_by'] : array();
@@ -25,31 +37,51 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         $search_q = $search_q . " in Category " . $search_category;
     } 
 
+    $limit = 5;
+    $start = ($page-1) * $limit;
 
     if($search_word) {
         if($by_title && $by_author) {
             if($search_category) {
                 $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE CategoryDetail = '$search_category' and (BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%')
+                        LIMIT $start, $limit";
+                $sql2 = "SELECT COUNT(*) AS Total FROM Books JOIN Categories USING(CategoryID) 
                         WHERE CategoryDetail = '$search_category' and (BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%')";
             } else {
                 $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%'
+                        LIMIT $start, $limit";
+                $sql2 = "SELECT COUNT(*) AS Total FROM Books JOIN Categories USING(CategoryID) 
                         WHERE BookTitle LIKE '%$search_word%' OR Author LIKE '%$search_word%'";
             }
         } elseif($by_title) {
             if($search_category) {
                 $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE CategoryDetail = '$search_category' and BookTitle LIKE '%$search_word%'
+                        LIMIT $start, $limit";
+                $sql2 = "SELECT COUNT(*) AS Total FROM Books JOIN Categories USING(CategoryID) 
                         WHERE CategoryDetail = '$search_category' and BookTitle LIKE '%$search_word%'";
             } else {
                 $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
-                    WHERE BookTitle LIKE '%$search_word%'";
+                        WHERE BookTitle LIKE '%$search_word%'
+                        LIMIT $start, $limit";
+                $sql2 = "SELECT COUNT(*) AS Total FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE BookTitle LIKE '%$search_word%'";
             }
         } elseif($by_author) {
             if($search_category) {
                 $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE CategoryDetail = '$search_category' and Author LIKE '%$search_word%'
+                        LIMIT $start, $limit";
+                $sql2 = "SELECT COUNT(*) AS Total FROM Books JOIN Categories USING(CategoryID) 
                         WHERE CategoryDetail = '$search_category' and Author LIKE '%$search_word%'";
             } else {
                 $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
-                    WHERE Author LIKE '%$search_word%'";
+                        WHERE Author LIKE '%$search_word%'
+                        LIMIT $start, $limit";
+                $sql2 = "SELECT COUNT(*) AS Total FROM Books JOIN Categories USING(CategoryID) 
+                        WHERE Author LIKE '%$search_word%'";
             }
         } else { # only search word
             $_SESSION['error'] = "Search by and Search word must use together";
@@ -59,6 +91,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     } else { # no search word
         if($search_category) {
             $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail FROM Books JOIN Categories USING(CategoryID) 
+                    WHERE CategoryDetail = '$search_category'
+                    LIMIT $start, $limit";
+            $sql2 = "SELECT COUNT(*) AS Total FROM Books JOIN Categories USING(CategoryID) 
                     WHERE CategoryDetail = '$search_category'";
         } else {
             $_SESSION['error'] = "Please enter Search word or choose a Category";
@@ -70,7 +105,11 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     echo "<h2>Result for '$search_word' $search_q</h2>";
 
     $result = $conn -> query($sql);
-    $book_num = $result -> num_rows;
+    $result2 = $conn -> query($sql2);
+    $total_rows = $result2 -> fetch_assoc();
+    $book_num = $total_rows['Total'];
+    $total_page = ceil($book_num/$limit);
+
     if($book_num > 0) {
         echo "<table>";
         // Display headers
@@ -101,8 +140,16 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 echo '<div class="books_num">';
 echo 'Number of books: ' . $book_num;
+echo "<br>";
+echo '<div class="pagination">';
+for ($page = 1; $page <= $total_page; $page++) { 
+    $_SESSION['params']['page'] = $page;
+    $url = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
 
-
+    $page_link = "<li><a href='$url'>$page</a></li>";
+    echo $page_link;
+}
+echo '</div>';
 echo '</div>';
 include "includes/footer.php";
 ?>

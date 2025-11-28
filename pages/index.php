@@ -2,9 +2,32 @@
 include "includes/header.php";
 include "includes/show_message.php";
 
+if (!isset ($_GET['page']) ) {
+    $_SESSION['params'] = $_GET;
+    echo $_SESSION['params'];
+    $_SESSION['params']['page'] = 1;
+
+    $_SESSION['url'] = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
+
+    header("Location: " . $_SESSION['url']);
+    exit;
+} else {
+    $page = $_GET['page'];
+}
+
+$limit = 5;
+$start = ($page-1) * $limit;
+
 // get book info from db
-$sql = "SELECT * FROM Books ORDER BY BookTitle";
+$sql = "SELECT * FROM Books ORDER BY BookTitle LIMIT $start, $limit";
 $result = $conn -> query($sql);
+
+$sql2 = "SELECT COUNT(*) AS Total FROM Books";
+$result2 = $conn -> query($sql2);
+$total_rows = $result2 -> fetch_assoc();
+$book_num = $total_rows['Total'];
+$total_page = ceil($book_num/$limit);
+
 
 ?>
 <div class='display'>
@@ -24,4 +47,19 @@ $result = $conn -> query($sql);
 </div>
 </div>
 
-<?php include "includes/footer.php";?>
+<?php 
+echo '<div class="pagination">';
+for ($i = 1; $i <= $total_page; $i++) { 
+    $_SESSION['params']['page'] = $i;
+    $url = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
+
+    if($i == $page) {
+        $page_link = "<li class='current_page'><a href='$url'>$i</a></li>";
+    } else {
+        $page_link = "<li><a href='$url'>$i</a></li>";
+    }
+    echo $page_link;
+}
+echo '</div>';
+
+include "includes/footer.php";?>
