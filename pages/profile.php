@@ -10,7 +10,7 @@ if(!$_SESSION['userid']) {
 }
 ?>
 <div class="display">
-<h1>User Profile</h1>
+<h2>User Profile</h2>
 
 <?php
 $required_col = ['FirstName', 'Surname', 'Username', 'Password', 'City'];

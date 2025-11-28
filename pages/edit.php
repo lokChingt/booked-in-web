@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $conn -> close();
 ?>
 
-<h1>Edit user data</h1>
+<h2>Edit User Data</h2>
 <form method="POST">
     <table>
         <tr>

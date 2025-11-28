@@ -13,14 +13,15 @@ if(!($userid = $_SESSION['userid'])) {
 
 echo '<div class="display">';
 include "includes/show_message.php";
-echo "<h1>View reserved books</h1>";
+echo "<h2>View Reserved Books</h2>";
 
 // get book info from db
 $sql = "SELECT ISBN, BookTitle, Edition, Author, Year, CategoryDetail, ReservedDate 
         FROM Reservations
         JOIN Books USING(ISBN) 
         JOIN Categories USING(CategoryID)
-        WHERE UserID = '$userid'";
+        WHERE UserID = '$userid'
+        ORDER BY ReservedDate DESC";
 $result = $conn -> query($sql);
 
 if($result -> num_rows > 0) {

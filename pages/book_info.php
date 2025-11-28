@@ -18,7 +18,7 @@ $result = $stmt -> get_result();
 
 // display
 echo '<div class="display">';
-echo "<h1>Book info</h1>";
+echo "<h2>Book Info</h2>";
 while ($row = $result -> fetch_assoc()) {
     echo "<img src='../images/template.png' alt='template' width=300>";
     echo "<table>";

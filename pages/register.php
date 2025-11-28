@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<h1>Register BookedIn Account</h1>
+<h2>Register BookedIn Account</h2>
 <form method="POST">
     <table>
         <tr>
