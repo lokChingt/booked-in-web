@@ -140,16 +140,19 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 echo '<div class="books_num">';
 echo 'Number of books: ' . $book_num;
-echo "<br>";
+echo '</div>';
 echo '<div class="pagination">';
-for ($page = 1; $page <= $total_page; $page++) { 
-    $_SESSION['params']['page'] = $page;
+for ($i = 1; $i <= $total_page; $i++) { 
+    $_SESSION['params']['page'] = $i;
     $url = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
 
-    $page_link = "<li><a href='$url'>$page</a></li>";
+    if($i == $page) {
+        $page_link = "<li class='current_page'><a href='$url'>$i</a></li>";
+    } else {
+        $page_link = "<li><a href='$url'>$i</a></li>";
+    }
     echo $page_link;
 }
-echo '</div>';
 echo '</div>';
 include "includes/footer.php";
 ?>

@@ -49,6 +49,7 @@ $total_page = ceil($book_num/$limit);
 
 <?php 
 echo '<div class="pagination">';
+echo '<ul>';
 for ($i = 1; $i <= $total_page; $i++) { 
     $_SESSION['params']['page'] = $i;
     $url = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
@@ -60,6 +61,7 @@ for ($i = 1; $i <= $total_page; $i++) {
     }
     echo $page_link;
 }
+echo '</ul>';
 echo '</div>';
 
 include "includes/footer.php";?>
