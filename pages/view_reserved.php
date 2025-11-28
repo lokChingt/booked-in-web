@@ -11,8 +11,8 @@ if(!($userid = $_SESSION['userid'])) {
     $message = "Logged in as " . $_SESSION['username'];
 }
 
-echo '<div class="display">';
 include "includes/show_message.php";
+echo '<div class="display">';
 echo "<h2>View Reserved Books</h2>";
 
 // get book info from db
