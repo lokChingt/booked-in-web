@@ -9,6 +9,8 @@ $userid = $_SESSION['userid'];
 $sql = "SELECT $col FROM Users WHERE UserID = '$userid'";
 $result = $conn -> query($sql);
 $row = $result -> fetch_assoc();
+
+// only show old_data for non password
 if($col !== 'Password') {
     $old_data = $row[$col];
 }

@@ -2,13 +2,13 @@
 include "includes/header.php";
 include "includes/show_message.php";
 
-// check if delete button clicked
-if(isset($_POST['delete'])) {
+// check if remove button clicked
+if(isset($_POST['remove'])) {
     // get isbn & userid
     $isbn = $_GET["isbn"];
     $userid = $_SESSION["userid"];
 
-    // delete reservation from db
+    // remove reservation from db
     $sql = "DELETE FROM Reservations WHERE ISBN = '$isbn' and UserID = '$userid'";
     $result = $conn -> query($sql);
 
@@ -28,10 +28,10 @@ if(isset($_POST['delete'])) {
 
 ?>
 
-<!-- display delete confirmation -->
-<h2>Delete Confirmation</h2>
+<!-- display remove confirmation -->
+<h2>Remove Confirmation</h2>
 <form method="POST">
-    <input type="submit" name="delete" value="Delete">
+    <input type="submit" name="remove" value="Remove">
     <a href="view_reserved.php">Cancel</a>
 </form>
 
