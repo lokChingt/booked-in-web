@@ -16,20 +16,22 @@ $stmt -> execute();
 $result = $stmt -> get_result();
 
 
-// display
+// display book info
 echo '<div class="display">';
 echo "<h2>Book Info</h2>";
 while ($row = $result -> fetch_assoc()) {
+    // book cover
     echo "<img src='../images/template.png' alt='template' width=300>";
+    // book info
     echo "<table>";
-    echo "<tr><td>Title: </td><td>";
-    echo $row['BookTitle'] . " [Edition " . $row['Edition'] . "]<br></td></tr>";
-    echo "<tr><td>Author: </td><td>";
-    echo $row['Author'] . "<br></td></tr>";
-    echo "<tr><td>Year: </td><td>";
-    echo $row['Year'] . "<br></td></tr>";
-    echo "<tr><td>Category: </td><td>";
-    echo $row['CategoryDetail'] . "<br></td></tr>";
+        echo "<tr><td>Title: </td><td>";
+        echo $row['BookTitle'] . " [Edition " . $row['Edition'] . "]<br></td></tr>";
+        echo "<tr><td>Author: </td><td>";
+        echo $row['Author'] . "<br></td></tr>";
+        echo "<tr><td>Year: </td><td>";
+        echo $row['Year'] . "<br></td></tr>";
+        echo "<tr><td>Category: </td><td>";
+        echo $row['CategoryDetail'] . "<br></td></tr>";
     echo "</table>";
 }
 
@@ -40,24 +42,32 @@ $result = $conn -> query($sql);
 $row = $result -> fetch_assoc();
 
 $userid = $_SESSION['userid'];
+
+// check if reserved
 if($result -> num_rows > 0) {
+    // check if reserved by user
     if($row['UserID'] == $userid) {
         $reserved = True;
     } else {
+        // reserved by other user
         $reserved_other = True;
     }
 } else {
+    // not reserved
     $reserved = False;
 }
 ?>
+
+<!-- reserve button -->
 <form method='POST'>
     <button type="submit" name="reserve" <?php if($reserved === True || $reserved_other == True){ echo 'disabled'; }?> >Reserve</button>
+    <!-- show reservde message -->
     <?php if($reserved === True){ echo 'Reserved'; }?>
     <?php if($reserved_other === True){ echo 'Reserved by others'; }?>
 </form>
 </div>
-<?php
 
+<?php
 // check if reserve button is clicked
 if(isset($_POST['reserve'])) {
     // check if logged in
@@ -67,10 +77,12 @@ if(isset($_POST['reserve'])) {
         header("Location: login.php");
         exit();
     } else {
+        // logged in
         $userid = $_SESSION['userid'];
         $isbn = $_GET['isbn'];
         $date = date("Y-m-d");
 
+        // add reservation to db
         $stmt = $conn -> prepare("INSERT INTO Reservations (ISBN, UserID, ReservedDate) VALUES (?, ?, ?)");
         $stmt -> bind_param("sss", $isbn, $userid, $date);
 

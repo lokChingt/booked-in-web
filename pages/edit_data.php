@@ -13,20 +13,24 @@ if($col !== 'Password') {
     $old_data = $row[$col];
 }
 
-// update data
+// check if form submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // update date
     $new_data = $_POST['new_data'];
     $sql = "UPDATE Users SET $col = ? WHERE UserID = ?";
     $stmt = $conn -> prepare($sql);
     $stmt -> bind_param("ss", $new_data, $userid);
+
     if($stmt -> execute()) {
         if($col == 'Username') {
+            // update session username
             $_SESSION['username'] = $new_data;
         }
+        // redirect to profile page
         header("Location: profile.php");
         exit();
     } else {
-        echo "failed";
+        $error = "Failed to update " . $col;
     }
     $stmt -> close();
 }
@@ -34,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $conn -> close();
 ?>
 
+<!-- display edit form -->
 <h2>Edit User Data</h2>
 <form method="POST">
     <table>

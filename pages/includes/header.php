@@ -2,8 +2,10 @@
 session_start();
 include "db_connect.php";
 
+// get categories for select by category dropdown
 $sql = "SELECT CategoryDetail FROM Categories";
 $categories = $conn -> query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +19,7 @@ $categories = $conn -> query($sql);
 <body>
     <header>
         <h1><a href="index.php">BookedIn</a></h1>
+        <!-- navigation -->
         <nav>
             <ul>
             <li><a href="index.php">Home</a></li>
@@ -35,6 +38,7 @@ $categories = $conn -> query($sql);
         </nav>
         <Search>
             <form action="search.php" method="GET">
+                <!-- search by categoty -->
                 <label for="by_category">Search by Category</label>
                 <select name="category" id="by_category">
                     <option value="0">--Select option--</option>
@@ -45,10 +49,13 @@ $categories = $conn -> query($sql);
                     }
                     ?>
                 </select>
+                <!-- search by title -->
                 <input type="checkbox" id="by_title" name="search_by[]" value="by_title">
                 <label for="by_title">Search by Title</label>
+                <!-- search by author -->
                 <input type="checkbox" id="by_author" name="search_by[]" value="by_author">
                 <label for="by_author">Search by Author</label>
+                <!-- search word -->
                 <input type="text" id="search" name="search" placeholder="Search for a book">
                 <input type="submit" value="Search">
             </form>

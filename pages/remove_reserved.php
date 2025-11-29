@@ -2,12 +2,17 @@
 include "includes/header.php";
 include "includes/show_message.php";
 
-if(isset($_POST["delete"])) {
-    // delete from db
+// check if delete button clicked
+if(isset($_POST['delete'])) {
+    // get isbn & userid
     $isbn = $_GET["isbn"];
     $userid = $_SESSION["userid"];
+
+    // delete reservation from db
     $sql = "DELETE FROM Reservations WHERE ISBN = '$isbn' and UserID = '$userid'";
     $result = $conn -> query($sql);
+
+    // check if successful
     if($result) {
         $message = "Removed successfully";
     } else {
@@ -23,6 +28,7 @@ if(isset($_POST["delete"])) {
 
 ?>
 
+<!-- display delete confirmation -->
 <h2>Delete Confirmation</h2>
 <form method="POST">
     <input type="submit" name="delete" value="Delete">

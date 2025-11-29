@@ -90,6 +90,7 @@ input, select {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
   
+/* message style */
 .error {
     color:#721c24; 
     background-color:#f8d7da; 
@@ -106,6 +107,8 @@ input, select {
     margin:12px 0;
 }
 
+
+/* pagination */
 .pagination {
     display: flex;
     justify-content: center;

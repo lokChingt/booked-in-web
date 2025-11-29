@@ -2,8 +2,9 @@
 include "includes/header.php";
 include "includes/show_message.php";
 
-// Check if form is submitted
+// check if form submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // get all user input
     $username  = $_POST['username'];
     $fname     = $_POST['fname'];
     $surname   = $_POST['surname'];
@@ -21,16 +22,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $checkUserStmt -> execute();
     $result = $checkUserStmt -> get_result();
 
-    // username been used
+    // username used
     if($result && $result -> num_rows > 0) {
         $message = "Username already been used";
     } else {
-        // username not been used
+        // username not used
         $stmt = $conn -> prepare("INSERT INTO Users 
                                 (Username, Password, FirstName, Surname, AddressLine1, AddressLine2, City, Telephone, Mobile) 
                                 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt -> bind_param("sssssssss", $username, $password, $fname, $surname, $address_1, $address_2, $city, $telephone, $mobile);
         $message = "Registered Please login!";
+        
+        // check if execute successfully
         if($stmt -> execute()) {
             # redirect to login page
             header("Location: login.php");
@@ -46,15 +49,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
+<!-- display registration form -->
 <h2>Register BookedIn Account</h2>
 <form method="POST">
     <table>
         <tr>
-            <td><label for="fname">First Name:</label></td>
+            <td><label for="fname">First Name: *</label></td>
             <td><input type="text" id="fname" name="fname" placeholder="First Name" required></td>
         </tr>
         <tr>
-            <td><label for="surname">Surname:</label></td>
+            <td><label for="surname">Surname: *</label></td>
             <td><input type="text" id="surname" name="surname" placeholder="Surname" required></td>
         </tr>
         <tr>
@@ -66,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <td><input type="text" id="address_2" name="address_2" placeholder="Address Line 2"></td>
         </tr>
         <tr>
-            <td><label for="city">City:</label></td>
+            <td><label for="city">City: *</label></td>
             <td><input type="text" id="city" name="city" placeholder="City" required></td>
         </tr>
         <tr>
@@ -78,11 +82,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <td><input type="text" id="mobile" name="mobile" placeholder="Mobile"></td>
         </tr>
         <tr>
-            <td><label for="username"> Username:</label></td>
+            <td><label for="username"> Username: *</label></td>
             <td><input type="text" id="username" name="username" placeholder="Username" autocomplete="username" required></td>
         </tr>
         <tr>
-            <td><label for="password"> Password:</label></td>
+            <td><label for="password"> Password: *</label></td>
             <td><input type="password" id="password" name="password" placeholder="Password" required></td>
         </tr>
     </table>

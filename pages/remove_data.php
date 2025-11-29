@@ -2,11 +2,15 @@
 include "includes/header.php";
 include "includes/show_message.php";
 
-// delete from db
+// get column name & userid
 $col = $_GET["data"];
 $userid = $_SESSION["userid"];
+
+// delete data from db
 $sql = "UPDATE Users SET $col = NULL WHERE UserID = '$userid'";
 $result = $conn -> query($sql);
+
+// check if successful
 if($result) {
     $message = "Removed successfully";
 } else {
@@ -15,7 +19,7 @@ if($result) {
 
 $conn -> close();
 
-// redirect to previous page
+// redirect to profile page
 header("Location: profile.php");
 exit();
 
