@@ -1,10 +1,8 @@
 <?php
 include "includes/header.php";
-include "includes/show_message.php";
 
 if (!isset ($_GET['page']) ) {
     $_SESSION['params'] = $_GET;
-    echo $_SESSION['params'];
     $_SESSION['params']['page'] = 1;
 
     $_SESSION['url'] = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
@@ -28,6 +26,7 @@ $total_rows = $result2 -> fetch_assoc();
 $book_num = $total_rows['Total'];
 $total_page = ceil($book_num/$limit);
 
+include "includes/show_message.php";
 
 ?>
 <div class='display'>

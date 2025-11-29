@@ -7,8 +7,6 @@ if(!($userid = $_SESSION['userid'])) {
     $_SESSION['error'] = "Please login to view reserved books";
     header("Location: login.php");
     exit();
-} else {
-    $message = "Logged in as " . $_SESSION['username'];
 }
 
 if (!isset ($_GET['page']) ) {
