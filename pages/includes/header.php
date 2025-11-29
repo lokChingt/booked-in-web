@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "includes/db_connect.php";
+include "db_connect.php";
 
 $sql = "SELECT CategoryDetail FROM Categories";
 $categories = $conn -> query($sql);

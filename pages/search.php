@@ -143,22 +143,15 @@ echo 'Number of books: ' . $book_num;
 echo '</div>';
 
 $_SESSION['params']['page'] = $page-1;
-if($_SESSION['params']['page'] < 1) {
-    $last_page = $_SERVER['REQUEST_URI'];
-} else {
-    $last_page = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
-}
+$last_page = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
 
 $_SESSION['params']['page'] = $page+1;
-if($_SESSION['params']['page'] > $total_page) {
-    $next_page = $_SERVER['REQUEST_URI'];
-} else {
-    $next_page = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
-}
+$next_page = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
 
 echo '<div class="pagination">';
 echo '<ul>';
-echo "<li><a href='$last_page'>" . '<' . "</a></li>";
+$disabledAttr = ($page == 1) ? 'class = "disabled"' : '';
+echo "<li $disabledAttr><a href='$last_page'>" . '<' . "</a></li>";
 for ($i = 1; $i <= $total_page; $i++) { 
     $_SESSION['params']['page'] = $i;
     $url = $_SERVER['PHP_SELF'] . '?' . http_build_query($_SESSION['params']);
@@ -170,7 +163,8 @@ for ($i = 1; $i <= $total_page; $i++) {
     }
     echo $page_link;
 }
-echo "<li><a href='$next_page'>" . '>' . "</a></li>";
+$disabledAttr2 = ($page == $total_page) ? 'class = "disabled"' : '';
+echo "<li $disabledAttr2><a href='$next_page'>" . '>' . "</a></li>";
 echo '</ul>';
 echo '</div>';
 include "includes/footer.php";

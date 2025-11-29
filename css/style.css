@@ -121,3 +121,9 @@ input, select {
     background-color: bisque;
     border-radius: 8px;
 }
+
+.disabled a {
+    color: grey;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
