@@ -4,13 +4,13 @@ CREATE TABLE Users
     UserID          AUTO_INCREMENT NOT NULL PRIMARY KEY,
     Username        VARCHAR(15) NOT NULL UNIQUE,
     Password        VARCHAR(15) NOT NULL,
-    FirstName       VARCHAR(15),
-    Surname         VARCHAR(15),
+    FirstName       VARCHAR(15) NOT NULL,
+    Surname         VARCHAR(15) NOT NULL,
     AddressLine1    VARCHAR(20),
     AddressLine2    VARCHAR(15),
-    City            VARCHAR(15),
-    Telephone       VARCHAR(7),
-    Mobile          VARCHAR(9)
+    City            VARCHAR(15) NOT NULL,
+    Telephone       VARCHAR(10),
+    Mobile          VARCHAR(10)
 );
 INSERT INTO Users VALUES
 ('alanjmckenna','t1234s','Alan','McKenna','38 Cranley Road','Fairview','Dublin', '9998377', '856625567'),
@@ -69,12 +69,11 @@ INSERT INTO Books VALUES
 DROP TABLE IF EXISTS Reservations;
 CREATE TABLE Reservations
 (
-    ISBN          VARCHAR(15) NOT NULL,
+    ISBN          VARCHAR(15) NOT NULL PRIMARY KEY,
     UserID        INT NOT NULL,
     ReservedDate  DATE NOT NULL,
     FOREIGN KEY (ISBN) REFERENCES Books(ISBN),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    CONSTRAINT pk_Reservations PRIMARY KEY (ISBN, UserID)
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 INSERT INTO Reservations VALUES
